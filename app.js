@@ -5,7 +5,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static("public"));
+app.use(express.static("public"));//  Express by default serves our views folder and our entry point file only and everything else it chooses to ignore. now for using our css files we wil have to tel express explicitly to serve this file by making a public folder.
 
 app.get("/",function(req,res){
     let today  =  new Date();
@@ -30,3 +30,4 @@ app.post("/",function(req,res){
 app.listen(3000,function(){
     console.log("Server is runing at local host 3000");
 });
+
