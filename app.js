@@ -1,24 +1,29 @@
 const express = require("express");
 const bodyParser  = require("body-parser");
-
+let items = []
 const app = express();
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static("public"));
 
 app.get("/",function(req,res){
-   let today  =  new Date();
-   let currentDate = today.getDay();
-   let day = "";
-   if(currentDate===6 ||currentDate===0){
-    day="Weekend";
-    // res.send("Its weekend!!");
-    
-}else{
-    day="weekday";
-    // res.send("It's a working Day");
-}
-    res.render("list",{kindOfDay:day});      //express is going to look inside views for a folder known as list which as an extension of ejs by using this
+    let today  =  new Date();
+    let options = {
+        weekday:"long",
+        day:"numeric",
+        month:"long"
+    };
+
+    let day  = today.toLocaleDateString("hi-IN",options);
+
+    res.render("list",{kindOfDay:day,newListItem:items});      //express is going to look inside views folder for a file known as list which as an extension of ejs by using this || key should be same as the variable in the ejs file with which you want to replace.
+});
+
+app.post("/",function(req,res){
+    let item = req.body.work1
+    items.push(item); 
+    res.redirect("/");
 });
 
 
